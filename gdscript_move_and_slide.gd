@@ -1,60 +1,10 @@
 ## gdscript_move_and_slide.gd
-## This extension of CharacterBody2D has the move_and_slide function in gdscript
-## for educational purposes.
+## This extension of CharacterBody2D has the normal move_and_slide function in gdscript.
 
 extends CharacterBody2D
 class_name GdScriptMoveAndSlide
 
 @export var debug: bool = true
-@export var gravity_on: bool = false
-
-const GRAVITY_STRENGTH: float = 980.0
-const TERMINAL_VELOCITY: float = 1400.0
-const SPEED: float = 200.0
-var facing: Vector2 = Vector2.RIGHT:
-  set(value):
-    facing = value
-    $Node2D.rotation = facing.angle()
-
-
-func _ready() -> void:
-  mr.debug = debug
-
-func _physics_process(delta: float) -> void:
-  if not gravity_on:
-    _floating_movement()
-  else:
-    _gravity_movement(delta)
-
-
-func _gravity_movement(delta: float) -> void:
-  var direction: int = Input.get_axis("ui_left", "ui_right")
-  var jumped: bool = Input.is_action_just_pressed("ui_accept")
-  _change_facing(Vector2(direction, 0.0))
-  velocity.x = direction * SPEED
-  if not mr.is_on_floor():
-    velocity.y += GRAVITY_STRENGTH * delta   
-    velocity.y = minf(velocity.y, TERMINAL_VELOCITY)
-  else:
-    velocity.y = 0.0
-    if jumped:
-      velocity.y = -600.0
-  gdscript_move_and_slide()
-
-func _floating_movement() -> void:
-  var direction: Vector2 = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
-  _change_facing(direction)
-  velocity = direction * SPEED
-  gdscript_move_and_slide()
-
-
-func _change_facing(direction: Vector2) -> void:
-  if direction != Vector2.ZERO and direction != facing:
-    facing = direction
-
-
-
-
 
 const FLOOR_ANGLE_THRESHOLD: float = 0.01
 var motion_results: Array = []  ## Stores collision results from each iteration
@@ -63,6 +13,10 @@ var floor_normal: Vector2 = Vector2() ## floor normal is set when snapping to gr
 var wall_normal: Vector2 = Vector2() ## wall normal is set on wall collision
 
 var mr: MoveAndSlideResource = MoveAndSlideResource.new()
+
+
+func _ready() -> void:
+  mr.debug = debug
 
 
 func gdscript_move_and_slide() -> bool:
@@ -162,6 +116,7 @@ func _gdscript_move_and_slide_floating(delta: float) -> void:
         mr.first_slide = false
     
     return
+
 
 
 func _gdscript_move_and_slide_grounded(delta: float) -> void:
