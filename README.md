@@ -1,0 +1,2 @@
+This is my best approximation of the move_and_slide function for CharacterBody2D translated into gdscript. I created a new CharacterBody2D class and did my best to translate the C++ code from <address here> to gdscript code. Let me know if you find any inconsistencies or bugs or if this was helpful at all!
+I mainly did this to teach myself exactly how the function worked because I thought I might want to introduce some changes to the functionality. I did introduce one change in this one. I made the function differentiate left and right walls.
